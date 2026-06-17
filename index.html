@@ -2,74 +2,141 @@
 <html lang="en">
 
 <head>
-    <title>Ticket Booking - Home</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Ticket Booking</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 400px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
 </head>
 
-<body style="font-family: Arial, sans-serif; background-color: #f0f0f0; margin: 0; padding: 20px;">
+<body>
 
+    <div class="container">
+        <h2>Movie Ticket Booking</h2>
 
-    <main style="background-color: white; max-width: 500px; margin: 40px auto; padding: 30px; border: 1px solid #ccc;">
+        <form id="bookingForm">
 
+            <label>Your Name</label>
+            <input type="text" id="name" required>
 
-        <nav style="text-align: center; padding-bottom: 20px; border-bottom: 2px solid #f0f0f0; margin-bottom: 20px;">
-            <a href="index.html"
-                style="color: #007bff; text-decoration: none; margin: 0 15px; font-weight: bold;">Home</a>
-            <a href="success.html"
-                style="color: #007bff; text-decoration: none; margin: 0 15px; font-weight: bold;">Booking Status</a>
-            <a href="movies.html" style="color: #007bff; text-decoration: none; margin: 0 15px; font-weight: bold;">View
-                Movies</a>
-        </nav>
+            <label>Select Movie</label>
+            <select id="movie" required>
+                <option value="">Choose Movie</option>
+                <option value="Leo">Leo</option>
+                <option value="Jailer">Jailer</option>
+                <option value="GOAT">GOAT</option>
+                <option value="Coolie">Coolie</option>
+            </select>
 
-        <h1 style="text-align: center; color: #333;">Book Your Tickets</h1>
+            <label>Select Date</label>
+            <input type="date" id="date" required>
 
+            <label>Number of Seats</label>
+            <select id="seats" required>
+                <option value="">Choose Seats</option>
+                <option value="1">1 Seat</option>
+                <option value="2">2 Seats</option>
+                <option value="3">3 Seats</option>
+                <option value="4">4 Seats</option>
+                <option value="5">5 Seats</option>
+            </select>
 
-        <form action="success.html">
-            <div style="text-align: right; margin-bottom: 15px">
-                <a href="https://wikipedia.org" target="_blank">Need any help?</a>
-            </div>
-            <div style="margin-bottom: 20px;">
-                <label style="display: block; font-weight: bold; margin-bottom: 8px;">Enter your name</label>
-                <input type="text" required
-                    style="width: 100%; padding: 12px; font-size: 16px; border:1px; solid #ccc; box-sizing: border-box;">
-            </div>
-            <div style="margin-bottom: 20px;">
-                <label style="display: block; font-weight: bold; margin-bottom: 8px;">Step 1: Choose Movie</label>
-                <select required
-                    style="width: 100%; padding: 12px; font-size: 16px; border: 1px solid #ccc; box-sizing: border-box;">
-                    <option value="">Select a movie...</option>
-                    <option>Karuppu</option>
-                    <option>Leo</option>
-                </select>
-            </div>
-
-            <div style="margin-bottom: 20px;">
-                <label style="display: block; font-weight: bold; margin-bottom: 8px;">Step 2: Choose Date</label>
-                <input type="date" required
-                    style="width: 100%; padding: 12px; font-size: 16px; border: 1px solid #ccc; box-sizing: border-box;">
-            </div>
-
-            <div style="margin-bottom: 20px;">
-                <label style="display: block; font-weight: bold; margin-bottom: 8px;">Step 3: Number of Seats</label>
-                <select required
-                    style="width: 100%; padding: 12px; font-size: 16px; border: 1px solid #ccc; box-sizing: border-box;">
-                    <option>1 Seat</option>
-                    <option>2 Seats</option>
-                    <option>3 Seats</option>
-                    <option>4 Seats</option>
-                    <option>5 Seats</option>
-                </select>
-            </div>
-
-
-            <button type="submit"
-                style="width: 100%; padding: 14px; background-color: #007bff; color: white; border: none; font-size: 16px; cursor: pointer; font-weight: bold;">Confirm
-                & Book Now</button>
-            <div style="text-align:center; margin-top: 25px; font-size: 14px">
-                <a href="https://google.com" target="_blank">Read our terms and services</a>
-            </div>
-
+            <button type="submit">Confirm & Book Now</button>
         </form>
-    </main>
+    </div>
+
+    <script>
+        const supabaseUrl = "https://kcenydfdbimzswelmznh.supabase.co";
+        const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtjZW55ZGZkYmltenN3ZWxtem5oIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE3MDA1NDQsImV4cCI6MjA5NzI3NjU0NH0.J9HyYCg9LQp9PJL_bFlWJn3Cic3wV_h8OGN8gacEy0A";
+
+        const supabase = window.supabase.createClient(
+            supabaseUrl,
+            supabaseKey
+        );
+
+        document.getElementById("bookingForm")
+            .addEventListener("submit", async function (e) {
+                e.preventDefault();
+
+                const name = document.getElementById("name").value;
+                const movie = document.getElementById("movie").value;
+                const date = document.getElementById("date").value;
+                const seats = parseInt(
+                    document.getElementById("seats").value
+                );
+
+                const { error } = await supabase
+                    .from("bookings")
+                    .insert([
+                        {
+                            name: name,
+                            movie: movie,
+                            booking_date: date,
+                            seats: seats
+                        }
+                    ]);
+
+                if (error) {
+                    alert("Booking Failed!");
+                    console.log(error);
+                } else {
+                    window.location.href = "success.html";
+                }
+            });
+    </script>
 
 </body>
 
