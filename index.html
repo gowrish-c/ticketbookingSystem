@@ -102,7 +102,7 @@
         const supabaseUrl = "https://kcenydfdbimzswelmznh.supabase.co";
         const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtjZW55ZGZkYmltenN3ZWxtem5oIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE3MDA1NDQsImV4cCI6MjA5NzI3NjU0NH0.J9HyYCg9LQp9PJL_bFlWJn3Cic3wV_h8OGN8gacEy0A";
 
-        const supabase = window.supabase.createClient(
+        const supabaseClient = window.supabase.createClient(
             supabaseUrl,
             supabaseKey
         );
@@ -118,7 +118,7 @@
                     document.getElementById("seats").value
                 );
 
-                const { error } = await supabase
+                const { error } = await supabaseClient
                     .from("bookings")
                     .insert([
                         {
